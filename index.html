@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,22 +5,25 @@
   <title>Streaming CCTV Gunungwangi</title>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 20px; }
+    body { font-family: sans-serif; text-align: center; padding: 20px; background: #111; color: #fff; }
     .video-container { margin: 20px auto; max-width: 720px; }
     video { width: 100%; height: auto; background: black; }
-    button { margin: 5px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    button { margin: 5px; padding: 10px 20px; font-size: 16px; cursor: pointer; border: none; border-radius: 8px; background: #0d6efd; color: white; }
+    button:hover { background: #0b5ed7; }
   </style>
 </head>
 <body>
   
+  <h2>Streaming CCTV Desa Gunungwangi</h2>
+
   <div>
     <button onclick="loadStream(6)">ARAH MEKARWANGI</button>
     <button onclick="loadStream(5)">TARIKOLOT</button>
     <button onclick="loadStream(1)">PEREMPATAN ULIS</button>
     <button onclick="loadStream(3)">ARAH JAMBU SABRANG</button>
-	<button onclick="loadStream(2)">DEPAN BALE DESA</button>
+    <button onclick="loadStream(2)">DEPAN BALE DESA</button>
     <button onclick="loadStream(4)">PERTIGAAN JAMIL</button>
-	<button onclick="loadStream(7)">DEPAN MASJIL AL-ISTIQOMAH</button>
+    <button onclick="loadStream(7)">DEPAN MASJID AL-ISTIQOMAH</button>
   </div>
 
   <div class="video-container">
@@ -33,7 +35,8 @@
     var video = document.getElementById('video');
 
     function loadStream(cam) {
-      var videoSrc = '/hls/cam' + cam + '.m3u8';
+      // 🔥 URL penuh, bukan relative
+      var videoSrc = 'https://streamcctv.pages.dev/hls/cam' + cam + '.m3u8';
 
       if (hls) {
         hls.destroy();
