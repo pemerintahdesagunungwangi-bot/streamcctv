@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Streaming CCTV Gunungwangi</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 20px; }
+    .video-container { margin: 20px auto; max-width: 720px; }
+    video { width: 100%; height: auto; background: black; }
+    button { margin: 5px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  
+  <div>
+    <button onclick="loadStream(6)">ARAH MEKARWANGI</button>
+    <button onclick="loadStream(5)">TARIKOLOT</button>
+    <button onclick="loadStream(1)">PEREMPATAN ULIS</button>
+    <button onclick="loadStream(3)">ARAH JAMBU SABRANG</button>
+	<button onclick="loadStream(2)">DEPAN BALE DESA</button>
+    <button onclick="loadStream(4)">PERTIGAAN JAMIL</button>
+	<button onclick="loadStream(7)">DEPAN MASJIL AL-ISTIQOMAH</button>
+  </div>
+
+  <div class="video-container">
+    <video id="video" controls muted autoplay></video>
+  </div>
+
+  <script>
+    var hls;
+    var video = document.getElementById('video');
+
+    function loadStream(cam) {
+      var videoSrc = '/hls/cam' + cam + '.m3u8';
+
+      if (hls) {
+        hls.destroy();
+        hls = null;
+      }
+
+      if (Hls.isSupported()) {
+        hls = new Hls({
+          maxBufferLength: 5,
+          liveSyncDurationCount: 2,
+          lowLatencyMode: true
+        });
+        hls.loadSource(videoSrc);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+          video.play();
+        });
+        hls.on(Hls.Events.ERROR, function (event, data) {
+          console.error("HLS.js error:", data);
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = videoSrc;
+        video.addEventListener('loadedmetadata', function () {
+          video.play();
+        });
+      } else {
+        alert("Browser kamu tidak mendukung HLS.");
+      }
+    }
+  </script>
+</body>
+</html>
